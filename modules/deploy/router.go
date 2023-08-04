@@ -4,6 +4,7 @@ import "github.com/gin-gonic/gin"
 
 type DeployService struct {
 	Router *gin.Engine
+	Config Config
 }
 
 // Setup all routes
@@ -21,8 +22,10 @@ func (deployService *DeployService) Run() {
 
 // NewdeployService creates a new DeployService struct
 // and sets up routing
-func NewDeployService() *DeployService {
-	deployService := &DeployService{}
+func NewDeployService(config Config) *DeployService {
+	deployService := &DeployService{
+		Config: config,
+	}
 	deployService.setupRouter()
 	return deployService
 }

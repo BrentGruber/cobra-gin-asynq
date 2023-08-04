@@ -1,8 +1,11 @@
 package cmd
 
 import (
-	"releasr/pkg/deploy"
-	"releasr/pkg/release"
+	"fmt"
+	"releasr/modules/deploy"
+	"releasr/modules/release"
+
+	"github.com/spf13/viper"
 )
 
 // Config stores all configuration of the application
@@ -13,3 +16,20 @@ type Config struct {
 }
 
 // LoadConfig reads configuration from file or environment variables
+func LoadConfig(cfgFile string) (config Config, err error) {
+	if cfgFile != "" {
+		// Use config file from the flag.
+		viper.SetConfigFile(cfgFile)
+	} else {
+		viper.SetConfigFile("./config.yaml")
+	}
+
+	viper.AutomaticEnv()
+
+	if err := viper.ReadInConfig(); err == nil {
+		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	}
+
+	err = viper.Unmarshal(&config)
+	return
+}

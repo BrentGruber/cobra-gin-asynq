@@ -15,5 +15,6 @@ func (releaseService *ReleaseService) helloHandler(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": message,
+		"enabled": releaseService.Config.Enabled,
 	})
 }

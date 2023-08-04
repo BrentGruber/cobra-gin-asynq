@@ -4,6 +4,7 @@ import "github.com/gin-gonic/gin"
 
 type ReleaseService struct {
 	Router *gin.Engine
+	Config
 }
 
 // Setup all routes
@@ -21,8 +22,10 @@ func (releaseService *ReleaseService) Run() {
 
 // NewreleaseService creates a new ReleaseService struct
 // and sets up routing
-func NewReleaseService() *ReleaseService {
-	releaseService := &ReleaseService{}
+func NewReleaseService(config Config) *ReleaseService {
+	releaseService := &ReleaseService{
+		Config: config,
+	}
 	releaseService.setupRouter()
 	return releaseService
 }
