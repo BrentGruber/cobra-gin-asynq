@@ -15,7 +15,7 @@ func (releaseService *ReleaseService) helloHandler(ctx *gin.Context) {
 	name := ctx.Param("name")
 	message := fmt.Sprintf("Hello %s", name)
 
-	task, err := tasks.NewEmailDeliveryTask(42, "some:template:id")
+	task, err := tasks.NewEmailDeliveryTask(name, "some:template:id")
 	if err != nil {
 		log.Fatalf("could not create task: %v", err)
 	}

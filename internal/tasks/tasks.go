@@ -12,7 +12,7 @@ const (
 )
 
 type EmailDeliveryPayload struct {
-	UserID     int
+	UserID     string
 	TemplateID string
 }
 
@@ -21,7 +21,7 @@ type EmailDeliveryPayload struct {
 // A task consists of a type and a payload.
 //----------------------------------------------
 
-func NewEmailDeliveryTask(userID int, tmplID string) (*asynq.Task, error) {
+func NewEmailDeliveryTask(userID string, tmplID string) (*asynq.Task, error) {
 	payload, err := json.Marshal(EmailDeliveryPayload{UserID: userID, TemplateID: tmplID})
 	if err != nil {
 		return nil, err
