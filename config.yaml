@@ -1,5 +1,9 @@
+global:
+  redis:
+    address: localhost:6379
+
 release:
-  enabled: false
+  enabled: true
 
 deploy:
-  enabled: false
+  enabled: true

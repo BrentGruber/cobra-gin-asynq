@@ -8,9 +8,18 @@ import (
 	"github.com/spf13/viper"
 )
 
+type GlobalConfig struct {
+	Redis RedisConfig `mapstructure:"redis"`
+}
+
+type RedisConfig struct {
+	Address string `mapstructure:"address"`
+}
+
 // Config stores all configuration of the application
 // The values are read by viper from a config file or environment variable
 type Config struct {
+	Global         GlobalConfig   `mapstructure:"global,omitempty"`
 	ReleaseService release.Config `mapstructure:"release,omitempty"`
 	DeployService  deploy.Config  `mapstructure:"deploy,omitempty"`
 }

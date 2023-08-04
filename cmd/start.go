@@ -40,12 +40,12 @@ to quickly create a Cobra application.`,
 			server := gin.Default()
 
 			if config.ReleaseService.Enabled {
-				releaseService := release.NewReleaseService(config.ReleaseService)
+				releaseService := release.NewReleaseService(config.ReleaseService, config.Global.Redis.Address)
 				addRoutes(server, releaseService.Router)
 			}
 
 			if config.DeployService.Enabled {
-				deployService := deploy.NewDeployService(config.DeployService)
+				deployService := deploy.NewDeployService(config.DeployService, config.Global.Redis.Address)
 				addRoutes(server, deployService.Router)
 			}
 
