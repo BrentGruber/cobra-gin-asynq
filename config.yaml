@@ -4,6 +4,9 @@ global:
 
 release:
   enabled: true
+  databaseDriver: postgres
+  databaseUrl: "postgresql://postgres:postgres@localhost:5432/release?sslmode=disable"
+
 
 deploy:
   enabled: true

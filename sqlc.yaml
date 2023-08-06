@@ -1,0 +1,17 @@
+version: "2"
+sql:
+- schema: "./modules/release/db/migration"
+  queries: "./modules/release/db/query"
+  engine: "postgresql"
+  gen:
+    go:
+      package:  "db"
+      out: "modules/release/db/sqlc"
+      emit_json_tags: true
+      emit_interface: true
+      emit_empty_slices: true
+      overrides:
+        - db_type: "timestamptz"
+          go_type: "time.Time"
+        - db_type: "uuid"
+          go_type: "github.com/google/uuid.UUID"

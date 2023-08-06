@@ -1,0 +1,137 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table boundedContext as BC {
+  id bigserial [pk]
+  name varchar [pk]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table bcTags {
+  id bigserial [pk]
+  boundedContext bigint [ref: > BC.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table service as S {
+  id bigserial [pk]
+  name  varchar [pk]
+  bc bigint [ref: > BC.id]
+  tags json 
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    name
+  }
+}
+
+Table serviceTags as ST {
+  id bigserial [pk]
+  service bigint [ref: > S.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table serviceVersion as SV {
+  id bigserial [pk]
+  service bigint [ref: > S.id]
+  commit varchar [not null]
+  created_at timestamptz [not null, note: 'this should come from commit timestamp']
+}
+
+Table svTags as SVT {
+  id bigserial [pk]
+  service bigint [ref: > SV.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table repo {
+  id bigserial [pk]
+  project varchar [not null]
+  name varchar [not null]
+  service bigint [ref: > S.id]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table pullRequest as PR {
+  id bigserial [pk]
+  repo bigint [ref: > repo.id]
+  prID int
+  source_branch varchar [not null]
+  target_branch varchar [not null]
+  created bool [default: false]
+}
+
+Table pullRequestTags as PRT {
+  id bigserial [pk]
+  pullRequest bigint [ref: > PR.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table release as R {
+  id bigserial [pk]
+  name varchar [not null]
+  cutoffDate timestamptz [not null]
+  deploymentDate timestamptz [not null]
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    cutoffDate
+    deploymentDate
+  }
+}
+
+Table releaseTags as RT {
+  id bigserial [pk]
+  release bigint [ref: > R.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table releaseServices as RS {
+  id bigserial [pk]
+  release bigint [ref: > R.id]
+  serviceVersion bigint [ref: > SV.id]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table environment as E {
+  id bigserial [pk]
+  name  varchar [not null]
+  aws_account varchar [not null]
+  region varchar [not null]
+}
+
+Table environmentTags as ET {
+  id bigserial [pk]
+  environment bigint [ref: > E.id]
+  tag bigint [ref: > tag.id]
+}
+
+Table deploymentServices as DS {
+  id bigserial [pk]
+  serviceVersion bigint [ref: > SV.id]
+  deploymentRequest bigint [ref: > DR.id]
+}
+
+Table deploymentRequest as DR {
+  id bigserial [pk]
+  release bigint [ref: > R.id]
+  targetEnvironment bigint [ref: > E.id]
+}
+
+Table deployment as D {
+  id bigserial [pk]
+  deploymentRequest bigint [ref: > DR.id]
+  pipelineLink varchar
+  status  varchar [not null]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table tag {
+  id bigserial [pk]
+  tag varchar [not null]
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    tag
+  }
+}

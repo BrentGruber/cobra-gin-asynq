@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Brent Gruber <me@brentgruber.net>
 
 */
 package main
