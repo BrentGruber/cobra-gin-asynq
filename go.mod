@@ -2,8 +2,6 @@ module releasr
 
 go 1.20
 
-require gith
-
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect

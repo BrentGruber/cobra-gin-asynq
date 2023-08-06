@@ -11,7 +11,7 @@ import (
 )
 
 type createBCRequest struct {
-	name string
+	Name string `json:"name" binding:"required"`
 }
 
 func (releaseService *ReleaseService) createBoundedContext(ctx *gin.Context) {
@@ -22,7 +22,7 @@ func (releaseService *ReleaseService) createBoundedContext(ctx *gin.Context) {
 	}
 
 	arg := db.Createbounded_contextsParams{
-		Name:    req.name,
+		Name:    req.Name,
 		Manager: "John Doe",
 	}
 
